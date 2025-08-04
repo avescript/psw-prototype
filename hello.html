@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
     <style>
+        @keyframes bounce {
+            0% { 
+                transform: translate(0, 0) rotate(5deg);
+            }
+            25% { 
+                transform: translate(calc(100vw - 150px), 25vh) rotate(-10deg);
+            }
+            50% { 
+                transform: translate(50vw, calc(100vh - 150px)) rotate(15deg);
+            }
+            75% { 
+                transform: translate(25vw, 15vh) rotate(-5deg);
+            }
+            100% { 
+                transform: translate(0, 0) rotate(5deg);
+            }
+        }
+
+        .unicorn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 100px;
+            animation: bounce 10s ease-in-out infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
         body {
             background: #1976d2;
             margin: 0;
@@ -15,6 +43,7 @@
             flex-direction: column;
             font-family: Arial, sans-serif;
             color: #fff;
+            overflow: hidden;
         }
         .container {
             display: flex;
@@ -57,9 +86,10 @@
     <div class="container">
         <h1>Hello World</h1>
         <div class="photo">
-            <img src="Shalom_Ave" alt="Ave Shalom">
+            <img src="Shalom_Ave.jpeg" alt="Ave Shalom">
         </div>
         <button class="contact-btn">Contact</button>
     </div>
+    <div class="unicorn">🦄</div>
 </body>
 </html>
