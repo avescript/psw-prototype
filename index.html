@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="weather-widget">
+        <div class="weather-header">
+            <h2 id="location">Weather</h2>
+            <button id="refresh-btn">↻</button>
+        </div>
+        
+        <div class="weather-content">
+            <div class="current-weather">
+                <div class="temperature">
+                    <span id="current-temp">--</span>
+                    <span class="unit">°C</span>
+                </div>
+                <div class="weather-info">
+                    <p id="weather-description">Loading...</p>
+                    <p id="feels-like">Feels like: --°C</p>
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail-item">
+                    <span class="label">Humidity</span>
+                    <span id="humidity">--%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Wind Speed</span>
+                    <span id="wind-speed">-- km/h</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Precipitation</span>
+                    <span id="precipitation">-- mm</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">Loading weather data...</div>
+        <div class="error" id="error" style="display: none;">
+            Unable to load weather data. <button id="retry-btn">Retry</button>
+        </div>
+    </div>
+
+    <script src="weather.js"></script>
+</body>
+</html>
