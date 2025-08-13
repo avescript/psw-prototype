@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World with Weather</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
+  
+
+   
+    <script src="weather.js"></script>ttp://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
     <style>
         @keyframes bounce {
             0% { 
@@ -238,9 +241,10 @@
     
     <div class="audio-player">
         <audio id="background-music" loop>
-            <source src="https://cdn.freesound.org/previews/617/617306_1648170-lq.mp3" type="audio/mpeg">
+            <source src="https://audio-edge-4ev3b.lax.g.radiomast.io/ref-64k-heaacv2-stereo" type="audio/mpeg">
         </audio>
         <button id="music-toggle" class="music-btn">🔇</button>
+        <div class="music-info">🎵 "Floating Abstract" by Keys of Moon (Free Music)</div>
     </div>
 
     <script src="weather.js"></script>
@@ -249,15 +253,65 @@
         const musicBtn = document.getElementById('music-toggle');
         let isPlaying = false;
 
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                music.pause();
-                musicBtn.textContent = '🔇';
-            } else {
-                music.play();
-                musicBtn.textContent = '🔊';
+        // Pre-load the audio
+        music.load();
+
+        function fireConfetti() {
+            const end = Date.now() + 2000; // 2 seconds of confetti
+
+            // Paint confetti at random positions
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.8 },
+                    colors: ['#ff69b4', '#00d4ff', '#ffff00', '#00ff00', '#ff0000', '#ff8c00']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.8 },
+                    colors: ['#ff69b4', '#00d4ff', '#ffff00', '#00ff00', '#ff0000', '#ff8c00']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        musicBtn.addEventListener('click', async () => {
+            try {
+                if (isPlaying) {
+                    await music.pause();
+                    musicBtn.textContent = '🔇';
+                } else {
+                    // This ensures audio plays even on mobile devices
+                    if (music.paused) {
+                        await music.play();
+                        fireConfetti(); // Trigger confetti when music starts
+                    }
+                    musicBtn.textContent = '🔊';
+                }
+                isPlaying = !isPlaying;
+            } catch (error) {
+                console.error('Audio playback error:', error);
+                alert('Unable to play audio. Please check your browser settings.');
             }
-            isPlaying = !isPlaying;
+        });
+
+        // Add error handling
+        music.addEventListener('error', (e) => {
+            console.error('Audio loading error:', e);
+            alert('Unable to load audio. Please try refreshing the page.');
+        });
+
+        // Confirm when audio is ready
+        music.addEventListener('canplaythrough', () => {
+            console.log('Audio loaded and ready to play');
+            musicBtn.style.opacity = '1';
         });
     </script>
     <style>
@@ -266,6 +320,26 @@
             bottom: 20px;
             left: 20px;
             z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .audio-player:hover .music-info {
+            opacity: 1;
+            transform: translateX(0);
         }
         
         .music-btn {
@@ -279,10 +353,11 @@
             font-size: 24px;
             backdrop-filter: blur(5px);
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, background 0.2s, opacity 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0.5; /* Start faded until audio is ready */
         }
 
         .music-btn:hover {
