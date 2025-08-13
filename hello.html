@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World with Weather</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>">
     <style>
         @keyframes bounce {
             0% { 
@@ -234,7 +235,60 @@
     </div>
         <button class="contact-btn">Contact</button>
     <div class="unicorn">🦄</div>
+    
+    <div class="audio-player">
+        <audio id="background-music" loop>
+            <source src="https://cdn.freesound.org/previews/617/617306_1648170-lq.mp3" type="audio/mpeg">
+        </audio>
+        <button id="music-toggle" class="music-btn">🔇</button>
+    </div>
 
     <script src="weather.js"></script>
+    <script>
+        const music = document.getElementById('background-music');
+        const musicBtn = document.getElementById('music-toggle');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.textContent = '🔇';
+            } else {
+                music.play();
+                musicBtn.textContent = '🔊';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+    <style>
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        
+        .music-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
 </body>
 </html>
